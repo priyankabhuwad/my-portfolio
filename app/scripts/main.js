@@ -55,8 +55,16 @@
       }
     })
     imageMosaicContainerElem.on('click', '.grid-item', function (event) {
-      $('.lightbox-container').html($(this).find('img').clone())
-      $('.lightbox-overlay,.lightbox-container').removeClass('hidden')
+      var lightBoxImageElem = $(this).find('img').clone()
+      $('.lightbox-container').html(lightBoxImageElem)
+      $('.lightbox-container img').load(function () {
+        var centeredLeftValue = ($(window).width() - $('.lightbox-container').width()) / 2
+        var centeredTopValue = ($(window).height() - $('.lightbox-container').height()) / 2
+        $('.lightbox-container').css('top', centeredTopValue).css('left', centeredLeftValue)
+        $('.lightbox-overlay,.lightbox-container').removeClass('hidden')
+      })
+
+      /** Dynamic Height and width calculation for centering the lightbox */
     })
     lightBoxOverlayElem.click(function () {
       $('.lightbox-overlay,.lightbox-container').addClass('hidden')
