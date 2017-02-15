@@ -250,18 +250,18 @@ body {
   z-index:100;
 }
 .lightbox-container{
-  position:fixed;
-  width:auto;
-  height:90%;
-  border-radius:5px;
+  position: fixed;
+  top:10%;
+  left:30%;
+  width:40%;
+  height:80%;
   z-index:101;
-  padding:5px;
-
 
 }
 .lightbox-container img{
   margin:0 auto;
     box-shadow:5px 5px 5px #333;
+    z-index: 102;
 }
 .grid {
   background: #4B0082;

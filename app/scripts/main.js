@@ -14,7 +14,7 @@
     var pageSectionElem = $('.page-section')
     var fullPageJsContainerElem = $('#scroll-container')
     var imageMosaicContainerElem = $('.grid')
-    var lightBoxOverlayElem = $('.lightbox-overlay')
+    var lightBoxOverlayElem = $('.lightbox-overlay,.lightbox-container')
     pageSectionElem.hide()
     splitTextElem.each(function (index, elem) {
       $(this).html($(this).html().replace(/./g, '<span>$&</span>').replace(/\s/g, ' '))
@@ -55,14 +55,10 @@
       }
     })
     imageMosaicContainerElem.on('click', '.grid-item', function (event) {
-      var lightBoxImageElem = $(this).find('img').clone()
-      $('.lightbox-container').html(lightBoxImageElem)
-      $('.lightbox-container img').load(function () {
-        var centeredLeftValue = ($(window).width() - $('.lightbox-container').width()) / 2
-        var centeredTopValue = ($(window).height() - $('.lightbox-container').height()) / 2
-        $('.lightbox-container').css('top', centeredTopValue).css('left', centeredLeftValue)
-        $('.lightbox-overlay,.lightbox-container').removeClass('hidden')
-      })
+      $('.lightbox-container').html('')
+      var originalImg = $(this).find('img')
+      originalImg.clone().appendTo($('.lightbox-container'))
+      $('.lightbox-overlay,.lightbox-container').removeClass('hidden')
 
       /** Dynamic Height and width calculation for centering the lightbox */
     })
