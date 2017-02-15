@@ -34,7 +34,7 @@ body {
     padding-top: 20px;
     padding-bottom: 20px;
     /*background-image: url('../images/outer-space.jpg');*/
-    background-color: #4B0082;
+    background-color: #000;
 }
 
 .star-layer {
@@ -93,7 +93,7 @@ body {
 .page-section {
     height: 100vh;
     width: 100%;
-    background-color: #4B0082;
+    background-color: #000;
     border: 1px solid #333;
     box-shadow: 2px 2px 5px #220833, 5px 4px 2px #2E0E33;
     min-height: 500px;
@@ -165,13 +165,20 @@ body {
     z-index:2;
     display: none;
     padding:10px;
+    color:#fff;
+    padding-top:150px;
+} 
+.section-description-container h3{
+  font-family: 'Sansita', sans-serif;
 }
 .section-description-container p{
   color:#fff;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
 }
 .section-overlay {
     position: absolute;
-    background-color: #4B0082;
+    background-color: #000;
     top: 0;
     bottom: 0;
     right: 0;
@@ -264,7 +271,7 @@ body {
     z-index: 102;
 }
 .grid {
-  background: #4B0082;
+  background: #000;
   max-width: 1200px;
 }
 
@@ -316,8 +323,8 @@ body {
   height:158px;
 }
 .lily{
-  width:120px;
-  height:334px;
+  width:240px;
+  height:668px;
 }
 .tree-main{
   width:480px;

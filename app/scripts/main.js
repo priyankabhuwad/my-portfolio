@@ -23,7 +23,12 @@
     splitTextElem.each(function (index, elem) {
       $(this).html($(this).html().replace(/./g, '<span>$&</span>').replace(/\s/g, ' '))
     })
-    ytplayerInstance = initialiseYoutubePlayer()
+    try {
+      ytplayerInstance = initialiseYoutubePlayer()
+    } catch (e) {
+
+    }
+
     var timelines = []
     fullPageJsContainerElem.fullpage({
       anchors: fullPageJsConfig.anchors,
@@ -32,7 +37,9 @@
         console.log('Value of index' + index)
         if (timelines[index]) {
           if (index === 3) {
-            ytplayerInstance.playVideo()
+            if (ytplayerInstance) {
+              ytplayerInstance.playVideo()
+            }
           }
           return
         }
@@ -45,7 +52,9 @@
       },
       onLeave: function (index) {
         if (index === 3) {
-          ytplayerInstance.stopVideo()
+          if (ytplayerInstance) {
+            ytplayerInstance.stopVideo()
+          }
         }
         console.log('On leave called' + index)
       }
@@ -78,8 +87,8 @@
   })
   function createCarVideoTimeline () {
     var tl = new TimelineMax()
-    tl.from($('.player-container'), 2, {ease: Power2.easeOut,
-      css: {opacity: 0},
+    tl.to($('.player-container'), 2, {ease: Power2.easeOut,
+      css: {opacity: 1},
       onComplete: function () {
         ytplayerInstance.playVideo()
       }})
