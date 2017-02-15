@@ -6,6 +6,10 @@
   var Bounce = Bounce || window.Bounce
   var Back = Back || window.Back
   var YT = YT || window.YT
+  var ytplayerInstance
+  var fullPageJsConfig = {
+    anchors: ['firstPage', 'secondPage', '3rdPage', '4thPage', 'lastPage']
+  }
    /** Global declaration ends */
 
   $(document).ready(function () {
@@ -19,13 +23,17 @@
     splitTextElem.each(function (index, elem) {
       $(this).html($(this).html().replace(/./g, '<span>$&</span>').replace(/\s/g, ' '))
     })
+    ytplayerInstance = initialiseYoutubePlayer()
     var timelines = []
     fullPageJsContainerElem.fullpage({
-      anchors: ['firstPage', 'secondPage', '3rdPage', '4thPage', 'lastPage'],
+      anchors: fullPageJsConfig.anchors,
       menu: '#menu',
       afterLoad: function (anchorLink, index) {
         console.log('Value of index' + index)
         if (timelines[index]) {
+          if (index === 3) {
+            ytplayerInstance.playVideo()
+          }
           return
         }
         if (index === 1) {
@@ -36,6 +44,9 @@
         timelines[index] = true
       },
       onLeave: function (index) {
+        if (index === 3) {
+          ytplayerInstance.stopVideo()
+        }
         console.log('On leave called' + index)
       }
     })
@@ -50,8 +61,7 @@
       if (thisElem.data('index') === 1) {
         tl.add(createImageMosaicTimeline(), 3.25)
       } else if (thisElem.data('index') === 2) {
-        initialiseYoutubePlayer()
-        // tl.add(createCarVideoTimeline(), 3)
+        tl.add(createCarVideoTimeline(), 3)
       }
     })
     imageMosaicContainerElem.on('click', '.grid-item', function (event) {
@@ -68,13 +78,16 @@
   })
   function createCarVideoTimeline () {
     var tl = new TimelineMax()
-    tl.from($('.player-container'), 1, {ease: Power2.easeOut, css: {transform: 'translateY(0)'}})
+    tl.from($('.player-container'), 2, {ease: Power2.easeOut,
+      css: {opacity: 0},
+      onComplete: function () {
+        ytplayerInstance.playVideo()
+      }})
     return tl
   }
   function initialiseYoutubePlayer () {
     var player
     var onPlayerReady = function (event) {
-      event.target.playVideo()
     }
 
     var onPlayerStateChange = function (event) {

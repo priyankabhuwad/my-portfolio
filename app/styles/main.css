@@ -281,10 +281,10 @@ body {
   width: 120px;
   height: 100px;
   float: left;
-  background: #D26;
-  border: 2px solid #333;
+  border:1px solid #fff;
   border-color: hsla(0, 0%, 0%, 0.5);
   border-radius: 5px;
+  cursor:pointer;
 }
 .max-height{
   max-height: 100%;
