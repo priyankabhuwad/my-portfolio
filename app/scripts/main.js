@@ -51,7 +51,7 @@
         tl.add(createImageMosaicTimeline(), 3.25)
       } else if (thisElem.data('index') === 2) {
         initialiseYoutubePlayer()
-        tl.add(createCarVideoTimeline(), 3)
+        // tl.add(createCarVideoTimeline(), 3)
       }
     })
     imageMosaicContainerElem.on('click', '.grid-item', function (event) {
@@ -64,7 +64,7 @@
   })
   function createCarVideoTimeline () {
     var tl = new TimelineMax()
-    tl.from($('.ytplayer'), 1, {ease: Power2.easeOut, css: {transform: 'translateY(0)'}})
+    tl.from($('.player-container'), 1, {ease: Power2.easeOut, css: {transform: 'translateY(0)'}})
     return tl
   }
   function initialiseYoutubePlayer () {

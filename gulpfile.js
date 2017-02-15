@@ -5,7 +5,7 @@ const browserSync = require('browser-sync').create()
 const del = require('del')
 const wiredep = require('wiredep').stream
 const runSequence = require('run-sequence')
-
+const zip = require('gulp-zip')
 const $ = gulpLoadPlugins()
 const reload = browserSync.reload
 
@@ -147,10 +147,12 @@ gulp.task('wiredep', () => {
 gulp.task('build', ['lint', 'html', 'images', 'fonts', 'extras'], () => {
   return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}))
 })
-
+gulp.task('zip', () => {
+  return gulp.src('dist/**/*').pipe(zip('archive.zip')).pipe(gulp.dest('dist'))
+})
 gulp.task('default', () => {
   return new Promise(resolve => {
     dev = false
-    runSequence(['clean', 'wiredep'], 'build', resolve)
+    runSequence(['clean', 'wiredep'], 'build', 'zip', resolve)
   })
 })
