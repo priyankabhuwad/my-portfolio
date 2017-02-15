@@ -114,8 +114,8 @@
     player = new YT.Player('player', {
       height: '100%',
       width: '100%',
-      videoId: 'M7lc1UVf-VE',
-      playerVars: {'autoplay': 0, 'controls': 0, 'loop': 1, 'disablekb': 1, 'showinfo': 0, 'autohide': 1, 'fs': 0, 'modestbranding': 1},
+      videoId: '2M0S9VRRnak',
+      playerVars: {playlist: '2M0S9VRRnak', 'autoplay': 0, 'controls': 0, 'loop': 1, 'disablekb': 1, 'showinfo': 0, 'autohide': 1, 'fs': 0, 'modestbranding': 1},
       events: {
         'onReady': onPlayerReady,
         'onStateChange': onPlayerStateChange
