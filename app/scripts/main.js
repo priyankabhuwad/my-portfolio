@@ -22,39 +22,7 @@
     var playCarVideoButtonElem = $('.play-car-video')
     var carVideCloseButtonElem = $('.car-video-close')
     pageSectionElem.hide()
-    $('.poverty-carousel').slick({
-      slidesToShow: 1,
-      slidesToScroll: 1,
-      arrows: false,
-      fade: true,
-      asNavFor: '.poverty-carousel-slider'})
-    $('.poverty-carousel-slider').slick({
-      slidesToShow: 3,
-      slidesToScroll: 1,
-      asNavFor: '.poverty-carousel',
-      dots: false,
-      arrows: false,
-      centerMode: true,
-      centerPadding: '40px',
-      focusOnSelect: true
-    })
-    $('.car-carousel').slick(
-      {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        arrows: false,
-        fade: true,
-        asNavFor: '.car-carousel-slider'})
-    $('.car-carousel-slider').slick({
-      slidesToShow: 3,
-      slidesToScroll: 1,
-      asNavFor: '.car-carousel',
-      dots: false,
-      arrows: false,
-      centerMode: true,
-      centerPadding: '40px',
-      focusOnSelect: true
-    })
+
     splitTextElem.each(function (index, elem) {
       $(this).html($(this).html().replace(/./g, '<span>$&</span>').replace(/\s/g, ' '))
     })
@@ -100,11 +68,10 @@
         tl.add(createImageMosaicTimeline(), 3.25)
       } else if (thisElem.data('index') === 2) {
         tl.add(createCarVideoTimeline(), 3)
-        $(window).trigger('resize')
+
         ytplayerInstance = initialiseYoutubePlayer()
       } else if (thisElem.data('index') === 3) {
         tl.add(createPovertyTimeline(), 3)
-        $(window).trigger('resize')
       }
     })
     imageMosaicContainerElem.on('click', '.grid-item', function (event) {
@@ -127,14 +94,49 @@
   })
   function createPovertyTimeline () {
     var tl = new TimelineMax()
-    $('.poverty-carousel,.poverty-carousel-slider').removeClass('hidden')
+    $('.poverty-carousel,.poverty-carousel-slider').removeClass('not-visible')
+    $('.poverty-carousel').slick({
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      arrows: false,
+      fade: true,
+      asNavFor: '.poverty-carousel-slider'})
+    $('.poverty-carousel-slider').slick({
+      slidesToShow: 3,
+      slidesToScroll: 1,
+      asNavFor: '.poverty-carousel',
+      dots: false,
+      arrows: false,
+      centerMode: true,
+      centerPadding: '40px',
+      focusOnSelect: true
+    })
+    $(window).trigger('resize')
     tl.to($('.poverty-player-container'), 2, {ease: Power2.easeOut,
       css: {opacity: 1}})
     return tl
   }
   function createCarVideoTimeline () {
     var tl = new TimelineMax()
-    $('.car-carousel,.car-carousel-slider').removeClass('hidden')
+    $('.car-carousel,.car-carousel-slider').removeClass('not-visible')
+    $('.car-carousel').slick(
+      {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        arrows: false,
+        fade: true,
+        asNavFor: '.car-carousel-slider'})
+    $('.car-carousel-slider').slick({
+      slidesToShow: 3,
+      slidesToScroll: 1,
+      asNavFor: '.car-carousel',
+      dots: false,
+      arrows: false,
+      centerMode: true,
+      centerPadding: '40px',
+      focusOnSelect: true
+    })
+    $(window).trigger('resize')
     tl.to($('.player-container'), 2, {ease: Power2.easeOut,
       css: {opacity: 1}})
     return tl
