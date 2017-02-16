@@ -72,6 +72,8 @@
         tl.add(createCarVideoTimeline(), 3)
       } else if (thisElem.data('index') === 3) {
         tl.add(createPovertyTimeline(), 3)
+      } else if (thisElem.data('index') === 4) {
+        initialiseYoutubePlayer('symphonyPlayer', 'l1sVD8kJQy8')
       } else if (thisElem.data('index') === 5) {
         tl.add(createMorphTimeline(), 3)
       }
@@ -182,6 +184,7 @@
   function initialiseYoutubePlayer (element, videoId) {
     var player
     var onPlayerReady = function (event) {
+      event.target.setVolume(0)
       event.target.playVideo()
     }
 
