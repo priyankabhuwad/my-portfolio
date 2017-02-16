@@ -331,13 +331,13 @@ body {
   height:600px;
 }
 .ytplayer {pointer-events: none;}
-.car-carousel{
+.car-carousel,.morph-carousel{
   height:75vh;
 }
-.car-carousel-slider{
+.car-carousel-slider,.morph-carousel-slider{
   height:25vh;
 }
-.car-video-container{
+.car-video-container,.morph-video-container{
   position:absolute;
   top:0;
   left:0;

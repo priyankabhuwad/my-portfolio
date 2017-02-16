@@ -21,6 +21,8 @@
     var lightBoxOverlayElem = $('.lightbox-overlay,.lightbox-container')
     var playCarVideoButtonElem = $('.play-car-video')
     var carVideCloseButtonElem = $('.car-video-close')
+    var playMorphVideoButtonElem = $('.play-morph-video')
+    var morphVideoCloseButtonElem = $('.morph-video-close')
     pageSectionElem.hide()
 
     splitTextElem.each(function (index, elem) {
@@ -68,10 +70,10 @@
         tl.add(createImageMosaicTimeline(), 3.25)
       } else if (thisElem.data('index') === 2) {
         tl.add(createCarVideoTimeline(), 3)
-
-        ytplayerInstance = initialiseYoutubePlayer()
       } else if (thisElem.data('index') === 3) {
         tl.add(createPovertyTimeline(), 3)
+      } else if (thisElem.data('index') === 5) {
+        tl.add(createMorphTimeline(), 3)
       }
     })
     imageMosaicContainerElem.on('click', '.grid-item', function (event) {
@@ -85,13 +87,49 @@
     lightBoxOverlayElem.click(function () {
       $('.lightbox-overlay,.lightbox-container').addClass('hidden')
     })
+    var carVideoInstance
     playCarVideoButtonElem.click(function () {
       $('.car-video-container').removeClass('hidden')
+      carVideoInstance = initialiseYoutubePlayer('player', '2M0S9VRRnak')
     })
     carVideCloseButtonElem.click(function () {
       $('.car-video-container').addClass('hidden')
+      carVideoInstance.stopVideo()
+    })
+    var morphVideoInstance
+    playMorphVideoButtonElem.click(function () {
+      $('.morph-video-container').removeClass('hidden')
+      morphVideoInstance = initialiseYoutubePlayer('morphPlayer', '1bUMnLR3Ceg')
+    })
+    morphVideoCloseButtonElem.click(function () {
+      morphVideoInstance.stopVideo()
+      $('.morph-video-container').addClass('hidden')
     })
   })
+  function createMorphTimeline () {
+    var tl = new TimelineMax()
+    $('.morph-carousel,.morph-carousel-slider').removeClass('not-visible')
+    $('.morph-carousel').slick({
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      arrows: false,
+      fade: true,
+      asNavFor: '.morph-carousel-slider'})
+    $('.morph-carousel-slider').slick({
+      slidesToShow: 3,
+      slidesToScroll: 1,
+      asNavFor: '.morph-carousel',
+      dots: false,
+      arrows: false,
+      centerMode: true,
+      centerPadding: '40px',
+      focusOnSelect: true
+    })
+    $(window).trigger('resize')
+    tl.to($('.morph-player-container'), 2, {ease: Power2.easeOut,
+      css: {opacity: 1}})
+    return tl
+  }
   function createPovertyTimeline () {
     var tl = new TimelineMax()
     $('.poverty-carousel,.poverty-carousel-slider').removeClass('not-visible')
@@ -141,7 +179,7 @@
       css: {opacity: 1}})
     return tl
   }
-  function initialiseYoutubePlayer () {
+  function initialiseYoutubePlayer (element, videoId) {
     var player
     var onPlayerReady = function (event) {
       event.target.playVideo()
@@ -159,11 +197,11 @@
       console.log('Player ready state change do nothing')
     }
 
-    player = new YT.Player('player', {
+    player = new YT.Player(element, {
       height: '100%',
       width: '100%',
-      videoId: '2M0S9VRRnak',
-      playerVars: {playlist: '2M0S9VRRnak', 'autoplay': 0, 'controls': 0, 'loop': 1, 'disablekb': 1, 'showinfo': 0, 'autohide': 1, 'fs': 0, 'modestbranding': 1},
+      videoId: videoId,
+      playerVars: {playlist: videoId, 'autoplay': 0, 'controls': 0, 'loop': 1, 'disablekb': 1, 'showinfo': 0, 'autohide': 1, 'fs': 0, 'modestbranding': 1},
       events: {
         'onReady': onPlayerReady,
         'onStateChange': onPlayerStateChange
