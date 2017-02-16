@@ -19,6 +19,7 @@
     var fullPageJsContainerElem = $('#scroll-container')
     var imageMosaicContainerElem = $('.grid')
     var lightBoxOverlayElem = $('.lightbox-overlay,.lightbox-container')
+    var playCarVideoButtonElem = $('.play-car-video')
     pageSectionElem.hide()
     $('.car-carousel').slick(
       {
@@ -96,6 +97,9 @@
     })
     lightBoxOverlayElem.click(function () {
       $('.lightbox-overlay,.lightbox-container').addClass('hidden')
+    })
+    playCarVideoButtonElem.click(function () {
+      $('.car-video-container').removeClass('hidden')
     })
   })
   function createCarVideoTimeline () {
