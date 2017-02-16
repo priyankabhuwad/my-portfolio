@@ -8,7 +8,7 @@
   var YT = YT || window.YT
   var ytplayerInstance
   var fullPageJsConfig = {
-    anchors: ['firstPage', 'secondPage', '3rdPage', '4thPage', 'lastPage']
+    anchors: ['splash', 'enidblyton', 'car', 'poverty', 'symphony', 'morphing', 'paintings']
   }
    /** Global declaration ends */
 
