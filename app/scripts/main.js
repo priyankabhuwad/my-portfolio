@@ -18,6 +18,7 @@
     var pageSectionElem = $('.page-section')
     var fullPageJsContainerElem = $('#scroll-container')
     var imageMosaicContainerElem = $('.grid')
+    var artGalleryThumbnailElem = $('.gallery-img')
     var lightBoxOverlayElem = $('.lightbox-overlay,.lightbox-container')
     var playCarVideoButtonElem = $('.play-car-video')
     var carVideCloseButtonElem = $('.car-video-close')
@@ -76,9 +77,19 @@
         initialiseYoutubePlayer('symphonyPlayer', 'l1sVD8kJQy8')
       } else if (thisElem.data('index') === 5) {
         tl.add(createMorphTimeline(), 3)
+      } else if (thisElem.data('index') === 6) {
+        $('.art-gallery-main').removeClass('hidden')
       }
     })
     imageMosaicContainerElem.on('click', '.grid-item', function (event) {
+      $('.lightbox-container').html('')
+      var originalImg = $(this).find('img')
+      originalImg.clone().appendTo($('.lightbox-container'))
+      $('.lightbox-overlay,.lightbox-container').removeClass('hidden')
+
+      /** Dynamic Height and width calculation for centering the lightbox */
+    })
+    artGalleryThumbnailElem.on('click', function (event) {
       $('.lightbox-container').html('')
       var originalImg = $(this).find('img')
       originalImg.clone().appendTo($('.lightbox-container'))
