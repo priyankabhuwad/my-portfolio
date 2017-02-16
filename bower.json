@@ -7,7 +7,8 @@
     "gsap": "^1.19.0",
     "fullpage.js": "^2.9.2",
     "masonry": "^4.1.1",
-    "youtube-iframe-api": "^0.0.1"
+    "youtube-iframe-api": "^0.0.1",
+    "slick-carousel": "^1.6.0"
   },
   "overrides": {
     "bootstrap": {

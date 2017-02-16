@@ -20,15 +20,26 @@
     var imageMosaicContainerElem = $('.grid')
     var lightBoxOverlayElem = $('.lightbox-overlay,.lightbox-container')
     pageSectionElem.hide()
+    $('.car-carousel').slick(
+      {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        arrows: false,
+        fade: true,
+        asNavFor: '.car-carousel-slider'})
+    $('.car-carousel-slider').slick({
+      slidesToShow: 3,
+      slidesToScroll: 1,
+      asNavFor: '.car-carousel',
+      dots: false,
+      arrows: false,
+      centerMode: true,
+      centerPadding: '40px',
+      focusOnSelect: true
+    })
     splitTextElem.each(function (index, elem) {
       $(this).html($(this).html().replace(/./g, '<span>$&</span>').replace(/\s/g, ' '))
     })
-    try {
-      ytplayerInstance = initialiseYoutubePlayer()
-    } catch (e) {
-
-    }
-
     var timelines = []
     fullPageJsContainerElem.fullpage({
       anchors: fullPageJsConfig.anchors,
@@ -70,7 +81,9 @@
       if (thisElem.data('index') === 1) {
         tl.add(createImageMosaicTimeline(), 3.25)
       } else if (thisElem.data('index') === 2) {
-        tl.add(createCarVideoTimeline(), 3)
+        tl.add(createCarVideoTimeline(), 2)
+        $(window).trigger('resize')
+        ytplayerInstance = initialiseYoutubePlayer()
       }
     })
     imageMosaicContainerElem.on('click', '.grid-item', function (event) {
@@ -87,16 +100,15 @@
   })
   function createCarVideoTimeline () {
     var tl = new TimelineMax()
+    $('.car-carousel,.car-carousel-slider').removeClass('hidden')
     tl.to($('.player-container'), 2, {ease: Power2.easeOut,
-      css: {opacity: 1},
-      onComplete: function () {
-        ytplayerInstance.playVideo()
-      }})
+      css: {opacity: 1}})
     return tl
   }
   function initialiseYoutubePlayer () {
     var player
     var onPlayerReady = function (event) {
+      event.target.playVideo()
     }
 
     var onPlayerStateChange = function (event) {

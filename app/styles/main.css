@@ -331,3 +331,12 @@ body {
   height:600px;
 }
 .ytplayer {pointer-events: none;}
+.car-carousel{
+  height:75vh;
+}
+.car-carousel-slider{
+  height:25vh;
+}
+.thumbnail{
+  margin-left:10px;
+}
