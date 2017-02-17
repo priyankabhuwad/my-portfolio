@@ -121,6 +121,7 @@
   })
   function createMorphTimeline () {
     var tl = new TimelineMax()
+    tl.set($('.morph-player-container'), {opacity: 0})
     tl.to($('.morph-player-container'), 2, {ease: Power2.easeOut,
       css: {opacity: 1}})
     return tl
