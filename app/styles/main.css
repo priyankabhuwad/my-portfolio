@@ -167,6 +167,7 @@ body {
     padding:10px;
     color:#fff;
     padding-top:150px;
+    padding-right: 40px;
 } 
 .section-description-container h3{
   font-family: 'Sansita', sans-serif;
@@ -327,8 +328,8 @@ body {
   height:668px;
 }
 .tree-main{
-  width:480px;
-  height:600px;
+height:100vh;
+margin-left:25vh;
 }
 .ytplayer {pointer-events: none;}
 .car-carousel,.morph-carousel{
@@ -351,7 +352,32 @@ body {
   margin-left:10px;
   width:200px;
   height:200px;
+  background-color: #000;
+  border: none;
 }
 .not-visible{
   opacity: 0;
+}
+.gallery-img{
+height:100vh;
+width:100vw;
+}
+.art-gallery-main{
+  max-height:100vh;
+  overflow-y:auto;
+}
+.slick-prev,.slick-next{
+  top:50%;
+  z-index:102;
+      width: 50px;
+    height: 50px;
+}
+.slick-prev::before,.slick-next::before{
+font-size:50px;
+}
+.slick-prev{
+  left:75px;
+}
+.slick-next{
+  right:75px;
 }

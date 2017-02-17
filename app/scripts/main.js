@@ -78,7 +78,7 @@
       } else if (thisElem.data('index') === 5) {
         tl.add(createMorphTimeline(), 3)
       } else if (thisElem.data('index') === 6) {
-        $('.art-gallery-main').removeClass('hidden')
+        $('.art-gallery-main').removeClass('hidden').slick()
       }
     })
     imageMosaicContainerElem.on('click', '.grid-item', function (event) {
@@ -121,24 +121,6 @@
   })
   function createMorphTimeline () {
     var tl = new TimelineMax()
-    $('.morph-carousel,.morph-carousel-slider').removeClass('not-visible')
-    $('.morph-carousel').slick({
-      slidesToShow: 1,
-      slidesToScroll: 1,
-      arrows: false,
-      fade: true,
-      asNavFor: '.morph-carousel-slider'})
-    $('.morph-carousel-slider').slick({
-      slidesToShow: 3,
-      slidesToScroll: 1,
-      asNavFor: '.morph-carousel',
-      dots: false,
-      arrows: false,
-      centerMode: true,
-      centerPadding: '40px',
-      focusOnSelect: true
-    })
-    $(window).trigger('resize')
     tl.to($('.morph-player-container'), 2, {ease: Power2.easeOut,
       css: {opacity: 1}})
     return tl
