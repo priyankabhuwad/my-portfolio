@@ -330,6 +330,7 @@ body {
 .tree-main{
 height:100vh;
 margin-left:25vh;
+width:100%;
 }
 .ytplayer {pointer-events: none;}
 .car-carousel,.morph-carousel{
