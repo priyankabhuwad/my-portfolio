@@ -1,4 +1,4 @@
-(function ($, window) {
+(function ($, youtubeVideoConfig, window) {
   /** *Globals */
   var TweenMax = TweenMax || window.TweenMax
   var TimelineMax = TimelineMax || window.TimelineMax
@@ -7,9 +7,7 @@
   var Back = Back || window.Back
   var YT = YT || window.YT
   var ytplayerInstance
-  var fullPageJsConfig = {
-    anchors: ['splash', 'enidblyton', 'car', 'poverty', 'symphony', 'morphing', 'paintings']
-  }
+  var fullPageJsConfig = window.fullPageJsConfig
    /** Global declaration ends */
 
   $(document).ready(function () {
@@ -29,34 +27,15 @@
     splitTextElem.each(function (index, elem) {
       $(this).html($(this).html().replace(/./g, '<span>$&</span>').replace(/\s/g, ' '))
     })
-    var timelines = []
+
     fullPageJsContainerElem.fullpage({
       anchors: fullPageJsConfig.anchors,
-      menu: '#menu',
+      menu: fullPageJsConfig.menuSelector,
       afterLoad: function (anchorLink, index) {
-        console.log('Value of index' + index)
-        if (timelines[index]) {
-          if (index === 3) {
-            if (ytplayerInstance) {
-              ytplayerInstance.playVideo()
-            }
-          }
-          return
-        }
-        if (index === 1) {
-          createSplashAnimation()
-        } else if (index > 1) {
-          createWorkPageAnimation(index)
-        }
-        timelines[index] = true
+        fullPageJsConfig.afterLoadFn(anchorLink, index)
       },
       onLeave: function (index) {
-        if (index === 3) {
-          if (ytplayerInstance) {
-            ytplayerInstance.stopVideo()
-          }
-        }
-        console.log('On leave called' + index)
+        fullPageJsConfig.onLeaveFn(index)
       }
     })
         /** Splash page transitions***/
@@ -74,7 +53,9 @@
       } else if (thisElem.data('index') === 3) {
         tl.add(createPovertyTimeline(), 3)
       } else if (thisElem.data('index') === 4) {
-        initialiseYoutubePlayer('symphonyPlayer', 'l1sVD8kJQy8')
+        youtubeVideoConfig.getYoutubePlayerInstance(youtubeVideoConfig.videoNames.SYMPHONY_VIDEO).then(function (playerInstance) {
+          playerInstance.playVideo()
+        })
       } else if (thisElem.data('index') === 5) {
         tl.add(createMorphTimeline(), 3)
       } else if (thisElem.data('index') === 6) {
@@ -100,23 +81,29 @@
     lightBoxOverlayElem.click(function () {
       $('.lightbox-overlay,.lightbox-container').addClass('hidden')
     })
-    var carVideoInstance
     playCarVideoButtonElem.click(function () {
       $('.car-video-container').removeClass('hidden')
-      carVideoInstance = initialiseYoutubePlayer('player', '2M0S9VRRnak')
+      youtubeVideoConfig.getYoutubePlayerInstance(youtubeVideoConfig.videoNames.HOTWHEELS_VIDEO).then(function (playerInstance) {
+        playerInstance.playVideo()
+      })
     })
     carVideCloseButtonElem.click(function () {
       $('.car-video-container').addClass('hidden')
-      carVideoInstance.stopVideo()
+      youtubeVideoConfig.getYoutubePlayerInstance(youtubeVideoConfig.videoNames.HOTWHEELS_VIDEO).then(function (playerInstance) {
+        playerInstance.stopVideo()
+      })
     })
-    var morphVideoInstance
     playMorphVideoButtonElem.click(function () {
       $('.morph-video-container').removeClass('hidden')
-      morphVideoInstance = initialiseYoutubePlayer('morphPlayer', '1bUMnLR3Ceg')
+      youtubeVideoConfig.getYoutubePlayerInstance(youtubeVideoConfig.videoNames.MORPH_VIDEO).then(function (playerInstance) {
+        playerInstance.playVideo()
+      })
     })
     morphVideoCloseButtonElem.click(function () {
-      morphVideoInstance.stopVideo()
       $('.morph-video-container').addClass('hidden')
+      youtubeVideoConfig.getYoutubePlayerInstance(youtubeVideoConfig.videoNames.MORPH_VIDEO).then(function (playerInstance) {
+        playerInstance.stopVideo()
+      })
     })
   })
   function createMorphTimeline () {
@@ -175,37 +162,7 @@
       css: {opacity: 1}})
     return tl
   }
-  function initialiseYoutubePlayer (element, videoId) {
-    var player
-    var onPlayerReady = function (event) {
-      event.target.setVolume(0)
-      event.target.playVideo()
-    }
 
-    var onPlayerStateChange = function (event) {
-        /** *kept for reference in case need to mainpulate playback of video */
-        /** This will be initialise outside *//* var done = false */
-      /* if (event.data == YT.PlayerState.PLAYING && !done) {
-        setTimeout(stopVideo, 6000)
-        done = true
-      } function stopVideo () {
-      player.stopVideo()
-    } */
-      console.log('Player ready state change do nothing')
-    }
-
-    player = new YT.Player(element, {
-      height: '100%',
-      width: '100%',
-      videoId: videoId,
-      playerVars: {playlist: videoId, 'autoplay': 0, 'controls': 0, 'loop': 1, 'disablekb': 1, 'showinfo': 0, 'autohide': 1, 'fs': 0, 'modestbranding': 1},
-      events: {
-        'onReady': onPlayerReady,
-        'onStateChange': onPlayerStateChange
-      }
-    })
-    return player
-  }
   function createOverlayFlyoutTimeline (thisElem) {
     var sectionDescriptionElem = thisElem.prev('.section-description-container')
     var coverImageElem = sectionDescriptionElem.siblings('.cover-img')
@@ -228,39 +185,5 @@
       .staggerFrom('.fly-bottom', 0.5, {ease: Back.easeOut.config(1.7), transform: 'translateY(1800px)'}, 0.5, 'start-flyout')
     return tl
   }
-  function createSplashAnimation () {
-    $('#splash-section').show()
-    var section1Timeline = new TimelineMax({ repeat: 0 })
-    section1Timeline.add('start', 0.85).add('second', 1)
-
-        .from($('#splash-section'), 0.75, { ease: Back.easeOut.config(1.7), css: { transform: 'translateX(-100vw)', opacity: 0.5 } })
-        .from($('h1'), 1, { ease: Bounce.easeOut, scaleX: 0.1, scaleY: 0.1, opacity: 0 }, 'start')
-        .staggerFromTo('.tagline-text span', 0.25, { opacity: 0, rotationX: -180, top: '-100px' }, { opacity: 1, rotationX: 0, top: '0px' }, 0.025)
-        .from($('.center-img img'), 0.25, { ease: Back.easeOut.config(1.7), scaleX: 0.1, scaleY: 0.1, opacity: 0 }, 'start')
-        .from($('.video-img img'), 0.25, { ease: Back.easeOut.config(1.7), transform: 'translateX(200px)', opacity: 0 }, 'second')
-        .from($('.cat-img img'), 0.25, { ease: Back.easeOut.config(1.7), transform: 'translateX(-200px)', opacity: 0 }, 'second')
-    return section1Timeline
-  }
-
-  function createBorderTimeline (sectionElem) {
-    var tl = new TimelineMax()
-    tl.fromTo(sectionElem.find('.left-border'), 1, { height: 0 }, { height: '100%' }, 'horizontal-border-start')
-        .fromTo(sectionElem.find('.top-border'), 1, { width: 0 }, { width: '100%' }, 'vertical-border-start')
-        .fromTo(sectionElem.find('.right-border'), 1, { height: 0 }, { height: '100%' }, 'horizontal-border-start')
-        .fromTo(sectionElem.find('.bottom-border'), 1, { width: 0 }, { width: '100%' }, 'vertical-border-start')
-    return tl
-  }
-
-  function createWorkPageAnimation (index) {
-    var section1Timeline = new TimelineMax({ repeat: 0 })
-    var sectionElem = $('#work' + (index - 1) + '-section')
-    sectionElem.find('.section-overlay').data('index', (index - 1))
-    sectionElem.show()
-    section1Timeline.add('vertical-border-start', 0.85).add('horizontal-border-start', 1)
-        .from(sectionElem, 0.75, { ease: Back.easeOut.config(1.7), css: { transform: 'translateX(-1300px)', opacity: 0.5 } })
-        .add(createBorderTimeline(sectionElem))
-        .staggerFromTo(sectionElem.find('.section-overlay h3 span'), 3, { opacity: 0, rotationX: -180, top: '-100px' }, { opacity: 1, rotationX: 0, top: '0px' }, 0.025, 'vertical-border-start')
-    return section1Timeline
-  }
 }
-)(window.jQuery, window)
+)(window.jQuery, window.youtubeVideoConfig, window)
