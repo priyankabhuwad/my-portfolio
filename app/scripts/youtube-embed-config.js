@@ -35,7 +35,8 @@ window.youtubeVideoConfig = (function ($, YT, Promise) {
           var onPlayerReady = function (event) {
             event.target.setVolume(0)
             event.target.playVideo()
-            resolve(player)
+            videoInstanceCollection[element] = player
+            resolve(videoInstanceCollection[element])
           }
           var onPlayerStateChange = function (event) {
         /** *kept for reference in case need to mainpulate playback of video */

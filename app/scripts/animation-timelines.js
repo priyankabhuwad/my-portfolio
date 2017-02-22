@@ -1,4 +1,4 @@
-window.timelineConfig = (function ($, TimelineMax, Back, Bounce) {
+window.timelineConfig = (function ($, TimelineMax, Power2, Back, Bounce, youtubeVideoConfig) {
   var splashSectionElemSelector = '#splash-section'
   var topBorderSelector = '.top-border'
   var leftBorderSelector = '.left-border'
@@ -39,9 +39,103 @@ window.timelineConfig = (function ($, TimelineMax, Back, Bounce) {
         .staggerFromTo(sectionElem.find('.section-overlay h3 span'), 3, { opacity: 0, rotationX: -180, top: '-100px' }, { opacity: 1, rotationX: 0, top: '0px' }, 0.025, 'vertical-border-start')
     return section1Timeline
   }
+  var createOverlayFlyoutTimeline = function (thisElem) {
+    var sectionDescriptionElem = thisElem.prev('.section-description-container')
+    var coverImageElem = sectionDescriptionElem.siblings('.cover-img')
+    var tl = new TimelineMax()
+    tl.add('startLabel', 0.5)
+      .set(thisElem, {opacity: 1})
+      .to(coverImageElem, 0.5, {ease: Power2.easeOut, css: {borderRadius: '50%', scaleX: 0.01, scaleY: 0.01, opacity: 0}}, 'startLabel')
+      .to(thisElem, 0.5, {ease: Power2.easeOut, css: {borderRadius: '50%', scaleX: 0.05, scaleY: 0.05, opacity: 0.3}}, 'startLabel')
+      .to(thisElem, 0.5, {ease: Power2.easeOut, css: {transform: 'translateY(-100vh)', opacity: 0, scaleX: 0, scaleY: 0}})
+      .set(sectionDescriptionElem, {display: 'block', transform: 'translateY(-100vh)'})
+      .to(sectionDescriptionElem, 1, {ease: Power2.easeOut, css: {transform: 'translateY(0)'}})
+    return tl
+  }
+  var createMorphTimeline = function () {
+    var tl = new TimelineMax()
+    tl.set($('.morph-player-container'), {opacity: 0})
+    tl.to($('.morph-player-container'), 2, {ease: Power2.easeOut,
+      css: {opacity: 1}})
+    return tl
+  }
+  var createPovertyTimeline = function () {
+    var tl = new TimelineMax()
+    $('.poverty-carousel,.poverty-carousel-slider').removeClass('not-visible')
+    $('.poverty-carousel').slick({
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      arrows: false,
+      fade: true,
+      asNavFor: '.poverty-carousel-slider'})
+    $('.poverty-carousel-slider').slick({
+      slidesToShow: 3,
+      slidesToScroll: 1,
+      asNavFor: '.poverty-carousel',
+      dots: false,
+      arrows: false,
+      centerMode: true,
+      centerPadding: '40px',
+      focusOnSelect: true
+    })
+    $(window).trigger('resize')
+    tl.to($('.poverty-player-container'), 2, {ease: Power2.easeOut,
+      css: {opacity: 1}})
+    return tl
+  }
+
+  var createCarVideoTimeline = function () {
+    var tl = new TimelineMax()
+    $('.car-carousel,.car-carousel-slider').removeClass('not-visible')
+    $('.car-carousel').slick(
+      {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        arrows: false,
+        fade: true,
+        asNavFor: '.car-carousel-slider'})
+    $('.car-carousel-slider').slick({
+      slidesToShow: 3,
+      slidesToScroll: 1,
+      asNavFor: '.car-carousel',
+      dots: false,
+      arrows: false,
+      centerMode: true,
+      centerPadding: '40px',
+      focusOnSelect: true
+    })
+    $(window).trigger('resize')
+    tl.to($('.player-container'), 2, {ease: Power2.easeOut,
+      css: {opacity: 1}})
+    return tl
+  }
+  var createSectionOverlayClickAnimationLocal = function (thisElem) {
+    var tl = new TimelineMax()
+    var index = thisElem.data('index')
+      /* Add common timeline for making the section overlay to disappear */
+    tl.add(createOverlayFlyoutTimeline(thisElem))
+      /* Animation timeline for only the first work page */
+    if (index === 1) {
+      // tl.add(createImageMosaicTimeline(), 3.25)
+    } else if (index === 2) {
+      tl.add(createCarVideoTimeline(), 3)
+    } else if (index === 3) {
+      tl.add(createPovertyTimeline(), 3)
+    } else if (index === 4) {
+      youtubeVideoConfig.getYoutubePlayerInstance(youtubeVideoConfig.videoNames.SYMPHONY_VIDEO).then(function (playerInstance) {
+        playerInstance.playVideo()
+      })
+    } else if (index === 5) {
+      tl.add(createMorphTimeline(), 3)
+    } else if (index === 6) {
+      $('.art-gallery-main').removeClass('hidden').slick()
+    }
+    return tl
+  }
   return {
     createSplashAnimation: createSplashAnimationLocal,
-    createWorkPageAnimation: createWorkPageAnimationLocal
+    createWorkPageAnimation: createWorkPageAnimationLocal,
+    createSectionOverlayClickAnimation: createSectionOverlayClickAnimationLocal
 
   }
-})(window.jQuery, window.TimelineMax, window.Back, window.Bounce)
+})(window.jQuery, window.TimelineMax, window.Power2, window.Back, window.Bounce, window.youtubeVideoConfig)

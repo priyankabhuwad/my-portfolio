@@ -5,11 +5,6 @@ window.fullPageJsConfig = (function ($, timelineConfig, youtubeVideoConfig) {
     timelines: [],
     afterLoadFn: function (anchorLink, index) {
       if (this.timelines[index]) {
-        if (index === 3) {
-          youtubeVideoConfig.getYoutubePlayerInstance(youtubeVideoConfig.videoNames.HOTWHEELS_VIDEO).then(function (playerInstance) {
-            playerInstance.playVideo()
-          })
-        }
         return
       }
       if (index === 1) {
@@ -22,6 +17,10 @@ window.fullPageJsConfig = (function ($, timelineConfig, youtubeVideoConfig) {
     onLeaveFn: function (index) {
       if (index === 3) {
         youtubeVideoConfig.getYoutubePlayerInstance(youtubeVideoConfig.videoNames.HOTWHEELS_VIDEO).then(function (playerInstance) {
+          playerInstance.stopVideo()
+        })
+      } else if (index === 5) {
+        youtubeVideoConfig.getYoutubePlayerInstance(youtubeVideoConfig.videoNames.SYMPHONY_VIDEO).then(function (playerInstance) {
           playerInstance.stopVideo()
         })
       }
