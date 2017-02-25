@@ -1,0 +1,21 @@
+*{
+	box-sizing: border-box;
+}
+body{
+	color:#fff;
+}
+.gallery-tab-nav{
+	display: table;
+}
+.gallery-tab-nav ul{
+	display: table-row;
+}
+.gallery-tab-nav ul li{
+list-style-type: none;
+display: table-cell;
+vertical-align: middle;
+height:60px;
+text-align: center;
+border: 1px solid #fff;
+margin:20px 5px;
+}
