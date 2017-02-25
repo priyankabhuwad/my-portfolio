@@ -1,4 +1,4 @@
-window.timelineConfig = (function ($, TimelineMax, Power2, Back, Bounce, youtubeVideoConfig) {
+window.timelineConfig = (function ($, TimelineMax, Power2, Back, Bounce, youtubeVideoConfig, carouselConfig) {
   var splashSectionElemSelector = '#splash-section'
   var topBorderSelector = '.top-border'
   var leftBorderSelector = '.left-border'
@@ -62,22 +62,9 @@ window.timelineConfig = (function ($, TimelineMax, Power2, Back, Bounce, youtube
   var createPovertyTimeline = function () {
     var tl = new TimelineMax()
     $('.poverty-carousel,.poverty-carousel-slider').removeClass('not-visible')
-    $('.poverty-carousel').slick({
-      slidesToShow: 1,
-      slidesToScroll: 1,
-      arrows: false,
-      fade: true,
-      asNavFor: '.poverty-carousel-slider'})
-    $('.poverty-carousel-slider').slick({
-      slidesToShow: 3,
-      slidesToScroll: 1,
-      asNavFor: '.poverty-carousel',
-      dots: false,
-      arrows: false,
-      centerMode: true,
-      centerPadding: '40px',
-      focusOnSelect: true
-    })
+    var configObject = carouselConfig.getCarouselConfigByName(carouselConfig.carouselConfigNames.POVERTY_CAROUSEL)
+    $('.poverty-carousel').slick(configObject.mainCarouselConfig)
+    $('.poverty-carousel-slider').slick(configObject.sliderCarouselConfig)
     $(window).trigger('resize')
     tl.to($('.poverty-player-container'), 2, {ease: Power2.easeOut,
       css: {opacity: 1}})
@@ -87,23 +74,9 @@ window.timelineConfig = (function ($, TimelineMax, Power2, Back, Bounce, youtube
   var createCarVideoTimeline = function () {
     var tl = new TimelineMax()
     $('.car-carousel,.car-carousel-slider').removeClass('not-visible')
-    $('.car-carousel').slick(
-      {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        arrows: false,
-        fade: true,
-        asNavFor: '.car-carousel-slider'})
-    $('.car-carousel-slider').slick({
-      slidesToShow: 3,
-      slidesToScroll: 1,
-      asNavFor: '.car-carousel',
-      dots: false,
-      arrows: false,
-      centerMode: true,
-      centerPadding: '40px',
-      focusOnSelect: true
-    })
+    var configObject = carouselConfig.getCarouselConfigByName(carouselConfig.carouselConfigNames.HOTWHEELS_CAROUSEL)
+    $('.car-carousel').slick(configObject.mainCarouselConfig)
+    $('.car-carousel-slider').slick(configObject.sliderCarouselConfig)
     $(window).trigger('resize')
     tl.to($('.player-container'), 2, {ease: Power2.easeOut,
       css: {opacity: 1}})
@@ -138,4 +111,4 @@ window.timelineConfig = (function ($, TimelineMax, Power2, Back, Bounce, youtube
     createSectionOverlayClickAnimation: createSectionOverlayClickAnimationLocal
 
   }
-})(window.jQuery, window.TimelineMax, window.Power2, window.Back, window.Bounce, window.youtubeVideoConfig)
+})(window.jQuery, window.TimelineMax, window.Power2, window.Back, window.Bounce, window.youtubeVideoConfig, window.carouselConfig)
